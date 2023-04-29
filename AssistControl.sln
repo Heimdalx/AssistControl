@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.API", "AssistControl.API\AssistControl.API.csproj", "{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.Shared", "AssistControl.Shared\AssistControl.Shared.csproj", "{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.WEB", "AssistControl.WEB\AssistControl.WEB.csproj", "{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
