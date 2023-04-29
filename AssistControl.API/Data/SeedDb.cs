@@ -22,10 +22,9 @@ namespace AssistControl.API.Data
         {
             if (!_context.Tickets.Any())
             {
-                for(int i = 0; i <= 50000; i++)
+                for(int i = 0; i <= 10; i++)
                 {
-                    _context.Tickets.Add(new Ticket {Porteria = String.Empty});
-                    Console.WriteLine(i);
+                    _context.Tickets.Add(new Ticket {Porteria = String.Empty });
 
                 }
                 await _context.SaveChangesAsync();

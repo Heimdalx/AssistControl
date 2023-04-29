@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.API", "AssistControl.API\AssistControl.API.csproj", "{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssistControl.API", "AssistControl.API\AssistControl.API.csproj", "{475FC0BE-523D-4478-BBDA-EA1A4F6177D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.Shared", "AssistControl.Shared\AssistControl.Shared.csproj", "{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssistControl.Shared", "AssistControl.Shared\AssistControl.Shared.csproj", "{34FD3F4D-A686-4E3A-BB73-E8FAA74F9774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssistControl.WEB", "AssistControl.WEB\AssistControl.WEB.csproj", "{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssistControl.WEB", "AssistControl.WEB\AssistControl.WEB.csproj", "{9A2886A1-B8BB-45A2-9D1A-EBB27BB3B450}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

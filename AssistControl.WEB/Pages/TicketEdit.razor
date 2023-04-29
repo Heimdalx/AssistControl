@@ -1,0 +1,63 @@
+﻿@page "/tickets/edit/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+@inject NavigationManager navigationManager
+
+<h3>Editar Categoría</h3>
+
+@if (Ticket is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <TicketForm @ref="ticketForm" Ticket="Ticket" OnValidSubmit="EditAsync" OnReturnAction="Return" />
+}
+
+@code {
+    public Ticket? Ticket;
+
+    private TicketForm? ticketForm;
+
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Ticket>($"/api/tickets/{Id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/tickets");
+                return;
+            }
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Ticket = responseHttp.Response;
+    }
+
+    private async Task EditAsync()
+    {
+        var httpResponse = await repository.Put("api/tickets", Ticket);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        ticketForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/categories");
+    }
+}

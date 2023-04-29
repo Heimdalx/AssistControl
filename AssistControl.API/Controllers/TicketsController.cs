@@ -22,12 +22,12 @@ namespace AssistControl.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetAsync(int id)
         {
-            var category = await _context.Tickets.FirstOrDefaultAsync(category => category.Id == id);
-            if (category == null)
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(ticket => ticket.Id == id);
+            if (ticket == null)
             {
                 return NotFound();
             }
-            return Ok(category);
+            return Ok(ticket);
         }
 
         [HttpPut]
@@ -54,7 +54,10 @@ namespace AssistControl.API.Controllers
         }
 
 
+
+
     }
+
 
 
 }

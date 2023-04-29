@@ -1,0 +1,87 @@
+﻿@using AssistControl.Shared.Enums;
+@inject SweetAlertService sweetAlertService
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="card mb-3">
+        <div class="card-body d-flex flex-wrap justify-content-between">
+            
+
+            <div class="form-group mb-3 me-3">
+                <label for="FechaDeUso" class="form-label">Fecha de Uso</label>
+                <InputDate id="FechaDeUso" class="form-control" @bind-Value="Ticket.FechaDeUso" />
+                <ValidationMessage For="@(() => Ticket.FechaDeUso)" />
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <InputCheckbox id="FueUsada" class="form-check-input" @bind-Value="Ticket.FueUsada" />
+                <label class="form-check-label ms-2" for="FueUsada">¿Fue Usada?</label>
+                <ValidationMessage For="@(() => Ticket.FueUsada)" />
+            </div>
+            <div class="form-group">
+                <label for="Porteria">Portería</label>
+                <select class="form-control" @bind="@Ticket.Porteria">
+                    @foreach (PorteriaEnum value in Enum.GetValues(typeof(PorteriaEnum)))
+                    {
+                        <option value="@value">@value.GetDisplayName()</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => Ticket.Porteria)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    private EditContext editContext = null!;
+
+
+    [Parameter]
+    [EditorRequired]
+    public Ticket Ticket { get; set; } = null!;
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnValidSubmit { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnReturnAction { get; set; }
+
+    public bool FormPostedSuccessfully { get; set; }
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Ticket);
+    }
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        if (editContext.IsModified() && !FormPostedSuccessfully)
+        {
+            var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmación",
+                    Text = "¿Quiere descartar los cambios?",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    CancelButtonText = "No",
+                    ConfirmButtonText = "Sí"
+                });
+
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (confirm)
+            {
+                return;
+            }
+
+            context.PreventNavigation();
+        }
+    }
+
+}

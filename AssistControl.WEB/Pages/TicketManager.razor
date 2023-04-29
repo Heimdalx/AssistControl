@@ -1,0 +1,73 @@
+﻿@page "/ticketManager"
+@inject IRepository repository
+@inject SweetAlertService sweetAlertService
+
+<h3>TicketManager</h3>
+
+
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">  
+    <div class="mx-2">
+     <input style="width: 400px;" type="number" class="form-control" id="titulo" placeholder="Buscar entrada" @bind-value="TicketId" />
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary" @onclick="GetAsync">Buscar</button>
+    </div>
+</div>
+
+@if (Ticket is null)
+{
+    <p>Cargue un ticket</p>
+}
+else
+{
+    <TicketForm @ref="ticketForm" Ticket="Ticket" OnValidSubmit="EditAsync" OnReturnAction="Return" />
+
+}
+@code {
+    public Ticket? Ticket;
+
+    private TicketForm? ticketForm;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int TicketId { get; set; }
+
+
+    private async Task GetAsync()
+    {
+
+        var responseHttp = await repository.Get<Ticket>($"/api/tickets/{TicketId}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                return;
+            }
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        Ticket = responseHttp.Response!;
+    }
+
+    private async Task EditAsync()
+    {
+       
+        var httpResponse = await repository.Put("api/tickets", Ticket);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+
+        ticketForm!.FormPostedSuccessfully = true;
+        Ticket = null;
+    }
+}
