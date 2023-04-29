@@ -14,17 +14,17 @@
     </div>
 </div>
 
-@if (Ticket is null)
+@if (ticket is null)
 {
     <p>Cargue un ticket</p>
 }
 else
 {
-    <TicketForm @ref="ticketForm" Ticket="Ticket" OnValidSubmit="EditAsync" OnReturnAction="Return" />
+    <TicketForm @ref="ticketForm" Ticket="ticket" OnValidSubmit="EditAsync" OnReturnAction="Return" />
 
 }
 @code {
-    public Ticket? Ticket;
+    public Ticket? ticket;
 
     private TicketForm? ticketForm;
 
@@ -47,13 +47,13 @@ else
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        Ticket = responseHttp.Response!;
+        ticket = responseHttp.Response!;
     }
 
     private async Task EditAsync()
     {
-       
-        var httpResponse = await repository.Put("api/tickets", Ticket);
+        ticket!.FechaDeUso = DateTime.Now;
+        var httpResponse = await repository.Put("api/tickets", ticket);
         if (httpResponse.Error)
         {
             var message = await httpResponse.GetErrorMessageAsync();
@@ -68,6 +68,6 @@ else
     {
 
         ticketForm!.FormPostedSuccessfully = true;
-        Ticket = null;
+        ticket = null;
     }
 }
