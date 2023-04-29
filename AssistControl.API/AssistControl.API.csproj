@@ -21,4 +21,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AssistControl.Shared\AssistControl.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
