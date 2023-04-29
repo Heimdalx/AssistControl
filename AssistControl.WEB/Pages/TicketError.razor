@@ -1,25 +1,76 @@
-﻿@page "/tickets/error/{Id:int}"
+﻿@page "/tickets/error/{Id:int}/{TicketId:int}"
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 
-@if (Id==1)
+@if (Id==1  && ! (ticket is null))
 {
-   <h3>La boleta ya fue usada, cuidado, posible fraude</h3>
+   
+   <div class="card mx-auto" style="max-width: 400px">
+       
+        <div class="card-body">
+             <h2>La boleta ya fue usada, cuidado, posible fraude</h2>
+            <h5 class="card-title">Ticket</h5>
+                <label>Porteria</label>
+                <h6 class="card-subtitle mb-2 text-muted">@ticket!.Porteria</h6>
+                <label>Hora de uso</label>
+                <p class="card-text">@ticket.FechaDeUso.ToString("dd/MM/yyyy hh:mm tt")</p>
+            <div class=" d-flex justify-content-center">
+                <a class="btn btn-warning" href="/ticketManager">Volver</a>
+            </div>
+        </div>
+   </div>
+
 
 }
 else
 {
-    <h3>Boleta no válida</h3>
+        <div class="card mx-auto" style="max-width: 400px">
+            
+            <div class="card-body">
+                <h3>La boleta ya fue usada, cuidado, posible fraude</h3>
+                <h2>Boleta no válida</h2>
+            </div>
+        <div class="text-right mt-3">
+            <a class="btn btn-warning" href="/ticketManager">Volver</a>
+        </div>
+       </div>
+    
 }
 
 
-<a class="btn btn-warning" href="/ticketManager">Volver</a>
 
 
 @code {
 
     [Parameter]
     public int Id { get; set; }
+
+    [Parameter]
+    public int TicketId { get; set; }
+
+    public Ticket? ticket;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(TicketId != 0)
+        {
+            var responseHttp = await repository.Get<Ticket>($"/api/tickets/{TicketId}");
+            if (responseHttp.Error)
+            {
+                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    navigationManager.NavigateTo("/ticketManager");
+                    return;
+                }
+                var message = await responseHttp.GetErrorMessageAsync();
+                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+
+            ticket = responseHttp.Response;
+        }
+
+    }
 }

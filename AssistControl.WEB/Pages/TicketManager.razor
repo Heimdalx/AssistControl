@@ -3,21 +3,30 @@
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 
-<h3>TicketManager</h3>
-
-
-<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">  
-    <div class="mx-2">
-     <input style="width: 400px;" type="number" class="form-control" id="titulo" placeholder="Buscar entrada" @bind-value="TicketId" />
+<div class="card mx-auto my-4 border-info" style="max-width: 600px;">
+    <div class="card-body d-flex justify-content-center">
+        <h3 class="text-center">Administrador de entradas</h3>
     </div>
-    <div>
-        <button type="button" class="btn btn-outline-primary" @onclick="GetAsync">Buscar</button>
+    <div class="card-body d-flex justify-content-center">
+        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+            <div class="mx-2">
+                <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar entrada" value="@TicketIdString" @oninput="@(e => TicketIdString = e.Value!.ToString()!)" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-primary" @onclick="GetAsync">Buscar</button>
+            </div>
+        </div>
     </div>
 </div>
 
 @if (ticket is null)
 {
-    <p>Cargue un ticket</p>
+    <div class="card mx-auto border-warning  " style="max-width: 400px">
+            
+            <div class="card-body">
+            <h5>Cargue un ticket</h5>
+            </div>
+       </div>
 }
 else
 {
@@ -25,6 +34,8 @@ else
 
 }
 @code {
+    private string? TicketIdString { get; set; }
+
     public Ticket? ticket;
 
     private TicketForm? ticketForm;
@@ -33,27 +44,35 @@ else
     [SupplyParameterFromQuery]
     public int TicketId { get; set; }
 
-
     private async Task GetAsync()
     {
-
-        var responseHttp = await repository.Get<Ticket>($"/api/tickets/{TicketId}");
-        if (responseHttp.Error)
+        if (int.TryParse(TicketIdString, out int ticketId))
         {
-            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            TicketId = ticketId;
+            var responseHttp = await repository.Get<Ticket>($"/api/tickets/{TicketId}");
+            if (responseHttp.Error)
             {
-                navigationManager.NavigateTo($"/tickets/error/{2}");
+                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    navigationManager.NavigateTo($"/tickets/error/{2}/{0}");
+                }
+                var message = await responseHttp.GetErrorMessageAsync();
+                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
             }
-            var message = await responseHttp.GetErrorMessageAsync();
-            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            return;
+            ticket = responseHttp.Response!;
+            if (ticket.FueUsada)
+            {
+                ticket = null;
+                navigationManager.NavigateTo($"/tickets/error/{1}/{TicketId}");
+            }
         }
-        ticket = responseHttp.Response!;
-        if (ticket.FueUsada)
+        else
         {
             ticket = null;
-            navigationManager.NavigateTo($"/tickets/error/{1}");
         }
+
+        
     }
 
     private async Task EditAsync()

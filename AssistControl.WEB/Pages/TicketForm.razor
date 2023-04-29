@@ -5,13 +5,13 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="card mb-3">
+    <div class="card mb-3 border-success">
         <div class="card-body d-flex flex-wrap justify-content-between">
             
 
            
             <div class="form-group">
-                <label for="FechaDeUso">Para la fecha nos encargamos nosotros ;)</label>
+                <label for="FechaDeUso">Para la fecha nos encargamos nosotros 🤓👨‍💻</label>
                 <div class="input-group">
                     <InputDate id="FechaDeUso" class="form-control" @bind-Value="Ticket.FechaDeUso" />
                     <div class="input-group-append">
@@ -21,22 +21,24 @@
                 <ValidationMessage For="@(() => Ticket.FechaDeUso)" />
             </div>
             <div class="form-group form-check mb-3">
-                <InputCheckbox id="FueUsada" class="form-check-input" @bind-Value="Ticket.FueUsada" />
                 <label class="form-check-label ms-2" for="FueUsada">¿Fue Usada?</label>
+                <InputCheckbox id="FueUsada" class="form-check-input" @bind-Value="Ticket.FueUsada" />
                 <ValidationMessage For="@(() => Ticket.FueUsada)" />
             </div>
             <div class="form-group">
                 <label for="Porteria">Portería</label>
-                <select class="form-control" @bind="@Ticket.Porteria">
+                <select class="form-control  accordion-collapse " @bind="@Ticket.Porteria">
+                     <option value="" disabled selected>Seleccione portería</option>
                     @foreach (PorteriaEnum value in Enum.GetValues(typeof(PorteriaEnum)))
                     {
                         <option value="@value">@value.GetDisplayName()</option>
                     }
                 </select>
+
                 <ValidationMessage For="@(() => Ticket.Porteria)" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-outline-success">Guardar</button>
         </div>
     </div>
 </EditForm>
