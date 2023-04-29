@@ -42,7 +42,7 @@ else
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                return;
+                navigationManager.NavigateTo($"/tickets/error/{2}");
             }
             var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
@@ -52,7 +52,7 @@ else
         if (ticket.FueUsada)
         {
             ticket = null;
-            navigationManager.NavigateTo("/tickets/error");
+            navigationManager.NavigateTo($"/tickets/error/{1}");
         }
     }
 

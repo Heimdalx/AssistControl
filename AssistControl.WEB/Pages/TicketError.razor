@@ -1,14 +1,25 @@
-﻿@page "/tickets/error"
+﻿@page "/tickets/error/{Id:int}"
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 
-<h3>La boleta ya fue usada, cuidado, posible fraude</h3>
+@if (Id==1)
+{
+   <h3>La boleta ya fue usada, cuidado, posible fraude</h3>
+
+}
+else
+{
+    <h3>Boleta no válida</h3>
+}
+
 
 <a class="btn btn-warning" href="/ticketManager">Volver</a>
 
 
 @code {
-   
+
+    [Parameter]
+    public int Id { get; set; }
 }
