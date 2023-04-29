@@ -1,7 +1,7 @@
 ﻿using AssistControl.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sales.API.Data
+namespace AssistControl.API.Data
 {
     public class DataContext : DbContext
     {

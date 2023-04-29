@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace Sales.API.Data
+namespace AssistControl.API.Data
 {
     public class SeedDb
     {

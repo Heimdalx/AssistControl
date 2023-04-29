@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Sales.API.Data;
+using AssistControl.API.Data;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
