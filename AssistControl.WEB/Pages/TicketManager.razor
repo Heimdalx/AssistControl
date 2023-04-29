@@ -1,6 +1,7 @@
 ﻿@page "/ticketManager"
 @inject IRepository repository
 @inject SweetAlertService sweetAlertService
+@inject NavigationManager navigationManager
 
 <h3>TicketManager</h3>
 
@@ -48,6 +49,11 @@ else
             return;
         }
         ticket = responseHttp.Response!;
+        if (ticket.FueUsada)
+        {
+            ticket = null;
+            navigationManager.NavigateTo("/tickets/error");
+        }
     }
 
     private async Task EditAsync()
