@@ -29,7 +29,6 @@ else
         <div class="card mx-auto" style="max-width: 400px">
             
             <div class="card-body">
-                <h3>La boleta ya fue usada, cuidado, posible fraude</h3>
                 <h2>Boleta no válida</h2>
             </div>
         <div class="text-right mt-3">
@@ -65,7 +64,6 @@ else
                     return;
                 }
                 var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
 

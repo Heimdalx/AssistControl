@@ -57,7 +57,6 @@ else
                     navigationManager.NavigateTo($"/tickets/error/{2}/{0}");
                 }
                 var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
             ticket = responseHttp.Response!;
@@ -82,7 +81,6 @@ else
         if (httpResponse.Error)
         {
             var message = await httpResponse.GetErrorMessageAsync();
-            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
